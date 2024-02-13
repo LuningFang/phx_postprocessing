@@ -51,7 +51,7 @@ else:
 
 
 mass_from_particles = []
-
+print("start frame: {} end frame: {}".format(start_frame, end_frame))
 for i in range(start_frame, end_frame):
     filename = folder_directory + "discharge_{:06d}.csv".format(i)
     counter = 0
