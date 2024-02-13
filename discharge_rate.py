@@ -3,20 +3,21 @@ import numpy as np
 import matplotlib.colors as mcolors
 import csv
 import pandas as pd
+import platform
+import sys
+import os
+import re
 
+
+orifice_x_dim = 0.7
+# check if cluster is used
+useCluster = platform.system() != 'Windows'
+
+# if there is command line input, then use that as the orifice diameter
+if len(sys.argv) > 1:
+    orifice_x_dim = float(sys.argv[1])
 
 time_list = []
-
-useCluster = False
-
-# check operating system, if windows, useCluster is set to false, else true
-import platform
-if platform.system() == 'Windows':
-    useCluster = False
-else:
-    useCluster = True
-
-
 
 fps = 2000
 step_size = 1/fps
@@ -27,16 +28,28 @@ radius = 0.02
 bottom_y = -26 # bottom y coordinate, only look at particles below this y
 
 if useCluster:
-    folder_directory = "/srv/home/fang/phX/CLUSTER_DATA/400um/orifice_x_0.9_mupw_0.50/"
+    # use orifice size as the folder directory
+    folder_directory = "/srv/home/fang/phX/CLUSTER_DATA/400um/orifice_x_{:.1f}_mupw_0.50/".format(orifice_x_dim)
 else:
-    folder_directory = "C:/Users/fang/Documents/pHX/cluster_data/orifice_x_0.9_mupw_0.50/data/"
+    # use orifice size as the folder directory
+    folder_directory = "C:/Users/fang/Documents/pHX/cluster_data/orifice_x_{:.1f}_mupw_0.50/data/".format(orifice_x_dim)
 
-# adjust frame rate
-start_frame = 200
-end_frame = 2999
+# find the number of files in the folder_directory, they start with discharge, and format is csv
+folder_files = os.listdir(folder_directory)
+# get all files that start with discharge and end with .csv
+folder_files = [f for f in folder_files if re.match(r'discharge_\d+.csv', f)]
+# get the number of files
+num_files = len(folder_files)
 
 
-num_files = end_frame - start_frame + 1
+if useCluster:
+    start_frame = 200
+    end_frame = num_files
+else:
+    start_frame = 2000
+    end_frame = start_frame + num_files -1
+
+
 mass_from_particles = []
 
 for i in range(start_frame, end_frame):
