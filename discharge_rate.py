@@ -4,15 +4,19 @@ import matplotlib.colors as mcolors
 import csv
 import pandas as pd
 
-# read file line by line, and do some cleaning,
-# if it sees a line that starts with time:
-# it will append the time to the time list
-# the same line will have bottom force:
-# append force to the force list
-# time: 2.40307, RTF: 8237.53, bottom force: -5621.65
 
-# filename = "dirty_output.txt"
 time_list = []
+
+useCluster = False
+
+# check operating system, if windows, useCluster is set to false, else true
+import platform
+if platform.system() == 'Windows':
+    useCluster = False
+else:
+    useCluster = True
+
+
 
 fps = 2000
 step_size = 1/fps
@@ -26,6 +30,8 @@ folder_directory = "C:/Users/fang/Documents/pHX/cluster_data/orifice_x_0.9_mupw_
 
 start_frame = 2000
 end_frame = 2099
+
+
 num_files = end_frame - start_frame + 1
 mass_from_particles = []
 
@@ -65,16 +71,20 @@ time_list = np.array(time_list)
 # pickle time_list and mass_from_particles together for future use
 # pick time and mass from particles into a pickle file 
 import pickle
-with open(folder_directory + 'mass_flow_rate.pkl', 'wb') as f:
+
+# make new directory called pickles
+import os
+if not os.path.exists(folder_directory + 'pickles'):
+    os.makedirs(folder_directory + 'pickles')
+pickle_directory = folder_directory + 'pickles/'
+
+with open(pickle_directory + 'mass_flow_rate.pkl', 'wb') as f:
     pickle.dump([time_list, mass_from_particles], f)
 
-
-plt.plot(time_list, mass_from_particles)
-plt.xlabel("time")
-plt.ylabel("mass (g) - from particles")
-plt.show()
-
-
-
-
-
+# if not use cluster then plot
+if not useCluster:
+    plt.plot(time_list, mass_from_particles)
+    plt.xlabel('Time (s)')
+    plt.ylabel('Mass flow rate (kg/s)')
+    plt.title('Mass flow rate vs time')
+    plt.show()
