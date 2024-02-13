@@ -43,7 +43,7 @@ num_files = len(folder_files)
 
 
 if useCluster:
-    start_frame = 200
+    start_frame = 200 
     end_frame = num_files
 else:
     start_frame = 2000
