@@ -26,10 +26,14 @@ radius = 0.02
 
 bottom_y = -26 # bottom y coordinate, only look at particles below this y
 
-folder_directory = "C:/Users/fang/Documents/pHX/cluster_data/orifice_x_0.9_mupw_0.50/data/"
+if useCluster:
+    folder_directory = "/srv/home/fang/phX/CLUSTER_DATA/400um/orifice_x_0.9_mupw_0.50/"
+else:
+    folder_directory = "C:/Users/fang/Documents/pHX/cluster_data/orifice_x_0.9_mupw_0.50/data/"
 
-start_frame = 2000
-end_frame = 2099
+# adjust frame rate
+start_frame = 200
+end_frame = 2999
 
 
 num_files = end_frame - start_frame + 1
