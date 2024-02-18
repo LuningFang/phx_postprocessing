@@ -22,14 +22,18 @@ tube_spacing_y = vertical_pitch   - 2 * tube_radius
 particle_diameter = 0.04
 
 # read data
-folder_name = "../cluster_data/orifice_x_0.9_mupw_0.50/data/"
+# folder_name = "../cluster_data/orifice_x_0.9_mupw_0.50/data/"
+folder_name = "../CLUSTER_DATA/400um/orifice_x_0.9_mupw_0.50/"
 
+bin_size_x = particle_diameter
+bin_size_y = 0.25
+bin_size_z = particle_diameter
 
 # define region of plot interest
-dim_x = 5
-dim_y = 14
+dim_x = 1.2 + bin_size_x
+dim_y = 1.5 + bin_size_y
 center_x = 0
-center_y = -12.6
+center_y = -14.5
 
 dim_z = 0.5
 print("dim_x: {}".format(dim_x))
@@ -37,13 +41,6 @@ print("dim_y: {}".format(dim_y))
 
 # center_x = 0
 # center_y = -10.5
-
-
-numBins = 40
-test_section_xdim = dim_x
-bin_size_x = test_section_xdim / numBins
-bin_size_y = bin_size_x
-bin_size_z = particle_diameter
 
 
 # draw a contour plot of velocity magnitude
@@ -72,8 +69,8 @@ vz_2D = np.zeros((len(y_range),len(x_range)))
 counter = np.zeros((len(y_range),len(x_range)))
 
 step_size = 1/2000
-start_frame =  1001
-end_frame = 1250
+start_frame =  2000
+end_frame = 3000
 
 for kk in range(start_frame, end_frame): 
 
@@ -155,7 +152,7 @@ for i in range(len(y_range)):
             vz_2D[i][j] = vz_2D[i][j] / counter[i][j]
 
 # save vx_2D, vy_2D, vz_2D, vel_mag_2D, x_range, y_range to a pickle file
-pickle_file_name = "velocity_field_400micron_wall_4cm_entire.pickle"
+pickle_file_name = "velocity_field_400micron_wall_9cm_zoomin_1d.pickle"
 pickle_file = open(folder_name + pickle_file_name, 'wb')
 pickle.dump([vx_2D, vy_2D, vz_2D, vel_mag_2D, x_range, y_range], pickle_file)
 pickle_file.close()
