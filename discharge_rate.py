@@ -43,7 +43,7 @@ num_files = len(folder_files)
 
 
 if useCluster:
-    start_frame = 200
+    start_frame = 200 
     end_frame = num_files
 else:
     start_frame = 2000
@@ -51,7 +51,7 @@ else:
 
 
 mass_from_particles = []
-
+print("start frame: {} end frame: {}".format(start_frame, end_frame))
 for i in range(start_frame, end_frame):
     filename = folder_directory + "discharge_{:06d}.csv".format(i)
     counter = 0
